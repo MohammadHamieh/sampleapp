@@ -1,0 +1,51 @@
+{
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "allowImportExportEverywhere": true
+    },
+    "plugins": [
+      "meteor",
+      "react"
+    ],
+    "extends": [
+      "airbnb",
+      "plugin:meteor/recommended",
+      "plugin:react/recommended"
+    ],
+    "rules": {
+      "func-names": "off",
+      "import/no-extraneous-dependencies": "off",
+      "import/prefer-default-export": 2,
+      "no-underscore-dangle": "off",
+      "object-shorthand": [
+        "error",
+        "always",
+        {
+          "avoidQuotes": false
+        }
+      ],
+      "meteor/eventmap-params": [
+        "error",
+        {
+          "eventParamName": "event",
+          "templateInstanceParamName": "instance"
+        }
+      ],
+      "meteor/template-names": [
+        "off"
+      ]
+    },
+    "env": {
+      "meteor": true,
+      "shared-node-browser": true,
+      "es6": true
+    },
+    "globals": {
+      "Roles": "readonly"
+    },
+    "settings": {
+      "import/resolver": "meteor"
+    }
+  }
+  
+  
