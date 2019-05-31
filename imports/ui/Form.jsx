@@ -24,6 +24,7 @@ class CForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addContact = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   addContact() {
@@ -68,7 +69,7 @@ class CForm extends Component {
 
   handleSelect(e) {
     this.setState({
-      [e.target.name]: e.target.value,
+      groups: `${e}`,
     });
   }
 
@@ -86,10 +87,15 @@ class CForm extends Component {
   // }
 
   render() {
-    const { Option } = Select;
+    const Aption = Select.Option;
     const {
       name, phones, emails, groups, work, isEditing,
     } = this.state;
+    const children = [];
+    for (let i = 10; i < 36; i++) {
+      children.push(<Aption key={i.toString(36) + i}>{i.toString(36) + i}</Aption>);
+    }
+
     return (
 
 
@@ -162,16 +168,15 @@ class CForm extends Component {
                 <Form.Item>
                   <Select
                     name="groups"
+                    mode="multiple"
                     value={groups}
                     onChange={e => this.handleSelect(e)}
                     placeholder="Select Groups"
                     style={{ width: 120 }}
                     required
+                    disabled={!isEditing}
                   >
-                    <Option value="Shared">Shared</Option>
-                    <Option value="Family">Family</Option>
-                    <Option value="Friends">Friends</Option>
-                    <Option value="Work">Work</Option>
+                    {children}
                   </Select>
                 </Form.Item>
               </Col>
