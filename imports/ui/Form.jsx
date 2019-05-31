@@ -27,7 +27,7 @@ class CForm extends Component {
   }
 
   addContact() {
-    this.preventDefault();
+    this.handleEdit();
     this.setState({
       isEditing: true,
       name: '',
@@ -36,13 +36,12 @@ class CForm extends Component {
       emails: [],
       groups: [],
     });
-
   }
 
   handleSubmit(e) {
     e.preventDefault();
     this.handleEdit();
-    Meteor.call('contact.insert', {
+    Meteor.call('contacts.insert', {
       Name: this.state.name,
       Work: this.state.work,
       Phones: [this.state.phones],
@@ -57,26 +56,27 @@ class CForm extends Component {
       emails: [],
       groups: [],
     });
+    return true;
   }
 
   handleChange(e) {
     e.preventDefault();
     this.setState({
-      [e.target.key]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
   handleSelect(e) {
     this.setState({
-      [e.targe.name]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   }
 
   handleEdit() {
     this.setState({ isEditing: !this.state.isEditing });
-    Meteor.call('contacts.insert', {
-      Name: 'bla', Work: 'blabla', Phones: ['96171928923'], Emails: ['mohammad@email.com'], Groups: ['shared']
-    });
+    // Meteor.call('contacts.insert', {
+    //   Name: 'bla', Work: 'blabla', Phones: ['96171928923'], Emails: ['mohammad@email.com'], Groups: ['shared']
+    // });
   }
   // renderOptions(){
   //     return ( this.props.map((contact)=>
@@ -91,106 +91,103 @@ class CForm extends Component {
       name, phones, emails, groups, work, isEditing,
     } = this.state;
     return (
-      <div>
-        <Row>
-          <Button type="primary" shape="circle" icon="plus" onClick={this.addContact} />
-        </Row>
-        <Router>
-          <div>
 
 
-            <Form onSubmit={e => this.handleSubmit(e)}>
+      <Router>
+        <div>
+          <Row>
+            <Button type="primary" shape="circle" icon="plus" onClick={e => this.addContact(e)} />
+          </Row>
+          <Form onSubmit={e => this.handleSubmit(e)}>
 
-              <Row>
-                <br />
-                <Form.Item>
-                  <Input
-                    name="name"
-                    placeholder="Enter contact name"
-                    required
-                    value={name}
-                    onChange={e => this.handleChange(e)}
-                    disabled={!isEditing}
-                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    suffix={(
-                      <Tooltip title="Full name">
-                        <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
-                      </Tooltip>
+            <Row>
+              <br />
+              <Form.Item>
+                <Input
+                  name="name"
+                  placeholder="Enter contact name"
+                  required
+                  value={name}
+                  onChange={e => this.handleChange(e)}
+                  disabled={!isEditing}
+                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  suffix={(
+                    <Tooltip title="Full name">
+                      <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
+                    </Tooltip>
                   )}
-                  />
-                </Form.Item>
+                />
+              </Form.Item>
+              <Form.Item>
+                <Input
+                  name="work"
+                  value={work}
+                  onChange={e => this.handleChange(e)}
+                  disabled={!isEditing}
+                  type="text"
+                  placeholder="Enter contact work"
+                  required
+                  prefix={<Icon type="desktop" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                />
+              </Form.Item>
+              <Form.Item>
+                <Input
+                  name="emails"
+                  value={emails}
+                  onChange={e => this.handleChange(e)}
+                  disabled={!isEditing}
+                  type="email"
+                  placeholder="Enter contact email"
+                  required
+                  prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                />
+              </Form.Item>
+              <Form.Item>
+                <Input
+                  name="phones"
+                  value={phones}
+                  onChange={e => this.handleChange(e)}
+                  disabled={!isEditing}
+                  type="phone"
+                  placeholder="Enter contact phone number"
+                  required
+                  prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                />
+              </Form.Item>
+            </Row>
+            <Row gutter={16}>
+              <br />
+
+              <Col span={6}>
                 <Form.Item>
-                  <Input
-                    name="work"
-                    value={work}
-                    onChange={e => this.handleChange(e)}
-                    disabled={!isEditing}
-                    type="text"
-                    placeholder="Enter contact work"
+                  <Select
+                    name="groups"
+                    value={groups}
+                    onChange={e => this.handleSelect(e)}
+                    placeholder="Select Groups"
+                    style={{ width: 120 }}
                     required
-                    prefix={<Icon type="desktop" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  />
+                  >
+                    <Option value="Shared">Shared</Option>
+                    <Option value="Family">Family</Option>
+                    <Option value="Friends">Friends</Option>
+                    <Option value="Work">Work</Option>
+                  </Select>
                 </Form.Item>
-                <Form.Item>
-                  <Input
-                    name="emails"
-                    value={emails}
-                    onChange={e => this.handleChange(e)}
-                    disabled={!isEditing}
-                    type="email"
-                    placeholder="Enter contact email"
-                    required
-                    prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Input
-                    name="phones"
-                    value={phones}
-                    onChange={e => this.handleChange(e)}
-                    disabled={!isEditing}
-                    type="phone"
-                    placeholder="Enter contact phone number"
-                    required
-                    prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  />
-                </Form.Item>
-              </Row>
-              <Row gutter={16}>
-                <br />
+              </Col>
 
-                <Col span={6}>
-                  <Form.Item>
-                    <Select
-                      name="groups"
-                      value={groups}
-                      onChange={e => this.handleSelect(e)}
-                      placeholder="Select Groups"
-                      style={{ width: 120 }}
-                      required
-                    >
-                      <Option key="a">LucY</Option>
-                      <Option key="b">nop</Option>
-                      <Option key="c">Yep</Option>
-                      <Option key="d">LmaYbe</Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
+              <Col span={6}>
+                <Button type="primary" onClick={this.handleEdit} disabled={isEditing}>Edit Contact</Button>
 
-                <Col span={6}>
-                  <Button type="primary" onClick={this.handleEdit} disabled={isEditing}>Edit Contact</Button>
+              </Col>
+              <Col span={6}>
+                <Button htmlType="submit">Done</Button>
+              </Col>
 
-                </Col>
-                <Col span={6}>
-                  <Button htmlType="submit">Done</Button>
-                </Col>
-
-              </Row>
-            </Form>
-          </div>
-        </Router>
-
-      </div>
+            </Row>
+          </Form>
+        </div>
+      </Router>
     );
   }
 }

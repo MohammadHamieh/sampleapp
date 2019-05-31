@@ -90,23 +90,19 @@ Meteor.methods({
     if (schema.validate(contact)) {
       console.log(' schema.validate(contact)', schema.isValid());
 
-      Contacts.insert(
-        // Name: contact.Name,
-        // Work: contact.Work,
-        // Phones: contact.Phones,
-        // Emails: contact.Emails,
-        // Groups: contact.Groups,
-        // createdAt: new Date(),
-        // createdBy: this.userId,
-        // updatedBy: this.userId,
-        // updatedAt: new Date(),
-        contact, {
-          createdAt: new Date(),
-          createdBy: this.userId,
-          updatedBy: this.userId,
-          updatedAt: this.userId,
-        },
-      );
+      Contacts.insert({
+        Name: contact.Name,
+        Work: contact.Work,
+        Phones: contact.Phones,
+        Emails: contact.Emails,
+        Groups: contact.Groups,
+        createdAt: new Date(),
+        createdBy: this.userId,
+        updatedBy: this.userId,
+        updatedAt: new Date(),
+      });
+    } else {
+      console.log('errors:', schema.validationErrors());
     }
   },
   'contacts.delete'(contactId) {
