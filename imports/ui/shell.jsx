@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Row, Col, Layout } from 'antd';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Forming from './FormRender.jsx';
 import ContactList from './List';
+import AccountsUIWrapper from './AccountsUI.jsx';
 
 const { Header, Content } = Layout;
 
@@ -29,21 +31,25 @@ const { Header, Content } = Layout;
 // }
 
 const Shell = () => (
-  <Layout>
-    <Header style={{ backgroundColor: 'aqua' }}>
-      <p>Phone Book </p>
-    </Header>
-    <Content>
-      <Row>
-        <Col span={8}>
-          <ContactList />
-        </Col>
-        <Col span={14}>
-          <Forming />
-        </Col>
-      </Row>
-    </Content>
-  </Layout>
+  <Router>
+    <Layout>
+      <Header style={{ backgroundColor: 'aqua' }}>
+        <AccountsUIWrapper />
+        <p>Phone Book </p>
+      </Header>
+      <br />
+      <Content>
+        <Row>
+          <Col span={8}>
+            <ContactList />
+          </Col>
+          <Col span={14}>
+            <Forming />
+          </Col>
+        </Row>
+      </Content>
+    </Layout>
+  </Router>
 );
 
 

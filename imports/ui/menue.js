@@ -3,22 +3,41 @@
 
 import React, { PureComponent } from 'react';
 
-import { Menu, Dropdown, Icon } from 'antd';
+import {
+  Menu, Dropdown, Icon, Button, Select,
+} from 'antd';
 
-const menu = (
-  <Menu>
-    <Menu.Item key="0">
-    </Menu.Item>
-  </Menu>
-);
+
 class GroupMenue extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.handleGroup = this.handleGroup.bind(this);
+  }
+
+  handleGroup(e) {
+    this.props.changeGroup(e);
+    console.log(e);
+  }
+
   render() {
+    const Aption = Select.Option;
+    const { groups } = this.props;
     return (
-      <Dropdown overlay={menu} trigger={['click']}>
-        <a className="ant-dropdown-link" href="http://www.google.com">
-          <Icon width="2em" height="2em" type="down-circle" />
-        </a>
-      </Dropdown>
+      <Select
+        name="groups"
+        mode="multiple"
+        value={groups}
+        onChange={e => this.handleGroup(e)}
+        placeholder="Select Groups"
+        style={{ width: 120 }}
+        required
+      >
+        {
+                      groups.map(group => (
+                        <Aption key={group._id}>{group.name}</Aption>
+                      ))
+                    }
+      </Select>
     );
   }
 }
